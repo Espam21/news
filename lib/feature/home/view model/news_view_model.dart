@@ -30,4 +30,22 @@ class NewsViewModel extends ChangeNotifier{
     getNews(sources[index].id??'');
     notifyListeners();
   }
+  List<Articles> searchResults = [];
+  bool isSearching = false;
+
+  Future<void> search(String query) async {
+    if (query.isEmpty) {
+      searchResults = [];
+      notifyListeners();
+      return;
+    }
+
+    isSearching = true;
+    notifyListeners();
+
+    searchResults = await ApiManger.searchNews(query);
+
+    isSearching = false;
+    notifyListeners();
+  }
 }

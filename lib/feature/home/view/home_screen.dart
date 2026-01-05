@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      appBar: AppBarHome.buildAppBar(selectedModel),
+      appBar: AppBarHome.buildAppBar(context,selectedModel),
       body: selectedModel == null
           ? CatograyScreen(onTap: onSelect)
           : NewsScreen(category: selectedModel!),

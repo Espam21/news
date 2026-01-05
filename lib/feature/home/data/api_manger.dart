@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../../core/api key/api_keys.dart';
+import '../../../core/api key/api_key.dart';
 import 'models/news_response.dart';
 
 class ApiManger{
@@ -54,6 +54,33 @@ class ApiManger{
     }
 
   }
+
+  static Future<List<Articles>> searchNews(String query) async {
+    try {
+      var uri = Uri.https(
+        "newsapi.org",
+        "v2/everything",
+        {
+          "apiKey": ApiKey.apiKey,
+          "q": query,
+        },
+      );
+
+      var response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        NewsResponse newsResponse = NewsResponse.fromJson(data);
+        return newsResponse.articles ?? [];
+      } else {
+        return [];
+      }
+    } catch (e, s) {
+      print(s);
+      rethrow;
+    }
+  }
+
 
 }
 
